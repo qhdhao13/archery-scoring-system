@@ -1,0 +1,36 @@
+# Python缓存文件
+__pycache__/
+*.py[cod]
+*.class
+*.so
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# 日志文件
+logs/
+*.log
+
+# 上传的文件
+uploads/
+data/
+
+# 临时文件
+*.tmp
+*.temp
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 备份文件
+*.bak
+*.backup
