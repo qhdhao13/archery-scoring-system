@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lambert - 生活记录</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Lambert</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gallery" class="nav-link">相册</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#articles" class="nav-link">文章</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#videos" class="nav-link">视频</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">关于</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 首页部分 -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>欢迎来到 Lambert 的生活空间</h2>
+                    <p>记录生活的美好瞬间，分享思考与感悟</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="photo-count">0</span>
+                            <span class="stat-label">张照片</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="article-count">0</span>
+                            <span class="stat-label">篇文章</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="video-count">0</span>
+                            <span class="stat-label">个视频</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最新动态 -->
+            <div class="recent-updates">
+                <h3>最新动态</h3>
+                <div class="updates-grid" id="recent-updates">
+                    <!-- 动态内容将通过JavaScript动态加载 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 相册部分 -->
+        <section id="gallery" class="section">
+            <div class="section-header">
+                <h2>相册</h2>
+                <p>记录生活中的美好瞬间</p>
+            </div>
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="nature">自然</button>
+                <button class="filter-btn" data-filter="travel">旅行</button>
+                <button class="filter-btn" data-filter="daily">日常</button>
+            </div>
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- 图片将通过JavaScript动态加载 -->
+            </div>
+            <div class="upload-section">
+                <button class="upload-btn" onclick="openUploadModal('image')">
+                    <i class="fas fa-plus"></i> 上传照片
+                </button>
+            </div>
+        </section>
+
+        <!-- 文章部分 -->
+        <section id="articles" class="section">
+            <div class="section-header">
+                <h2>文章</h2>
+                <p>分享思考与感悟</p>
+            </div>
+            <div class="articles-list" id="articles-list">
+                <!-- 文章列表将通过JavaScript动态加载 -->
+            </div>
+            <div class="write-section">
+                <button class="write-btn" onclick="openWriteModal()">
+                    <i class="fas fa-pen"></i> 写文章
+                </button>
+            </div>
+        </section>
+
+        <!-- 视频部分 -->
+        <section id="videos" class="section">
+            <div class="section-header">
+                <h2>视频</h2>
+                <p>记录动态的美好</p>
+            </div>
+            <div class="videos-grid" id="videos-grid">
+                <!-- 视频将通过JavaScript动态加载 -->
+            </div>
+            <div class="upload-section">
+                <button class="upload-btn" onclick="openUploadModal('video')">
+                    <i class="fas fa-video"></i> 上传视频
+                </button>
+            </div>
+        </section>
+
+        <!-- 关于部分 -->
+        <section id="about" class="section">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>关于 Lambert</h2>
+                    <p>这里是我的个人生活记录空间，用来记录和分享生活中的点点滴滴。</p>
+                    <p>我相信每一个瞬间都值得被记录，每一次思考都值得被分享。</p>
+                    <div class="contact-info">
+                        <h3>联系方式</h3>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@qhdhao.cn</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <span>qhdhao.cn</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="profile-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 原服务器内容链接 - 右下角 -->
+    <div class="legacy-content">
+        <a href="/legacy" target="_blank" class="legacy-link">
+            <i class="fas fa-archive"></i>
+            <span>原服务器内容</span>
+        </a>
+    </div>
+
+    <!-- 上传模态框 -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUploadModal()">&times;</span>
+            <h3 id="uploadTitle">上传内容</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="fileInput">选择文件</label>
+                    <input type="file" id="fileInput" name="file" accept="image/*,video/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="titleInput">标题</label>
+                    <input type="text" id="titleInput" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="descriptionInput">描述</label>
+                    <textarea id="descriptionInput" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="categoryInput">分类</label>
+                    <select id="categoryInput" name="category">
+                        <option value="nature">自然</option>
+                        <option value="travel">旅行</option>
+                        <option value="daily">日常</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">上传</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 写文章模态框 -->
+    <div id="writeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeWriteModal()">&times;</span>
+            <h3>写文章</h3>
+            <form id="writeForm">
+                <div class="form-group">
+                    <label for="articleTitle">标题</label>
+                    <input type="text" id="articleTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="articleContent">内容</label>
+                    <textarea id="articleContent" name="content" rows="10" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="articleTags">标签（用逗号分隔）</label>
+                    <input type="text" id="articleTags" name="tags">
+                </div>
+                <button type="submit" class="submit-btn">发布</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>射箭靶纸得分统计系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-bullseye"></i> 射箭靶纸得分统计系统</h1>
+            <p>拍照上传靶纸，自动识别箭矢位置并计算得分</p>
+        </header>
+
+        <main>
+            <!-- 拍照上传区域 -->
+            <div class="upload-section">
+                <h2><i class="fas fa-camera"></i> 拍照上传靶纸</h2>
+                <div class="target-type-selector">
+                    <label for="targetType">靶纸类型:</label>
+                    <select id="targetType">
+                        <option value="18m">18米 (40cm直径)</option>
+                        <option value="30m">30米 (80cm直径)</option>
+                        <option value="50m">50米 (80cm直径)</option>
+                        <option value="70m">70米 (122cm直径)</option>
+                    </select>
+                </div>
+                
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" accept="image/*" capture="camera">
+                    <div class="upload-content">
+                        <div class="camera-icon"><i class="fas fa-camera"></i></div>
+                        <p>点击拍照或选择照片</p>
+                        <p class="upload-hint">支持 JPG、PNG 格式，最大16MB</p>
+                    </div>
+                </div>
+                
+                <button id="uploadBtn" class="btn btn-primary" disabled>
+                    <i class="fas fa-upload"></i> 开始分析
+                </button>
+            </div>
+
+            <!-- 分析结果区域 -->
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> 分析结果</h2>
+                
+                <div class="result-grid">
+                    <div class="result-card">
+                        <h3>总得分</h3>
+                        <div class="score-display" id="totalScoreDisplay">-</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>平均分</h3>
+                        <div class="score-display" id="avgScoreDisplay">-</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>箭矢数量</h3>
+                        <div class="score-display" id="arrowCountDisplay">-</div>
+                    </div>
+                    <div class="result-card">
+                        <h3>表现评级</h3>
+                        <div class="score-display" id="gradeDisplay">-</div>
+                    </div>
+                </div>
+                
+                <div class="detailed-results">
+                    <h3>详细得分</h3>
+                    <div id="detailedScores" class="scores-list"></div>
+                </div>
+                
+                <div class="image-result">
+                    <h3>标记结果</h3>
+                    <img id="resultImage" alt="分析结果">
+                </div>
+                
+                <div class="analysis-section" id="analysisSection" style="display: none;">
+                    <h3>性能分析</h3>
+                    <div id="analysisContent"></div>
+                </div>
+            </div>
+
+            <!-- 手动得分计算区域 -->
+            <div class="manual-scoring">
+                <h2><i class="fas fa-calculator"></i> 手动得分计算</h2>
+                <div class="scoring-form">
+                    <div class="form-group">
+                        <label for="manualTargetType">靶纸类型:</label>
+                        <select id="manualTargetType">
+                            <option value="18m">18米 (40cm直径)</option>
+                            <option value="30m">30米 (80cm直径)</option>
+                            <option value="50m">50米 (80cm直径)</option>
+                            <option value="70m">70米 (122cm直径)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="shots-container">
+                        <h3>箭矢数据</h3>
+                        <div id="shotsList"></div>
+                        <button id="addShotBtn" class="btn btn-secondary">
+                            <i class="fas fa-plus"></i> 添加箭矢
+                        </button>
+                        <button id="calculateBtn" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i> 计算得分
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 批量处理区域 -->
+            <div class="batch-processing">
+                <h2><i class="fas fa-layer-group"></i> 批量处理</h2>
+                <div class="batch-form">
+                    <div class="form-group">
+                        <label for="batchTargetType">靶纸类型:</label>
+                        <select id="batchTargetType">
+                            <option value="18m">18米 (40cm直径)</option>
+                            <option value="30m">30米 (80cm直径)</option>
+                            <option value="50m">50米 (80cm直径)</option>
+                            <option value="70m">70米 (122cm直径)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="batch-upload-area" id="batchUploadArea">
+                        <input type="file" id="batchFileInput" multiple accept="image/*">
+                        <div class="upload-content">
+                            <div class="camera-icon"><i class="fas fa-images"></i></div>
+                            <p>选择多个照片进行批量处理</p>
+                            <p class="upload-hint">支持同时选择多张照片</p>
+                        </div>
+                    </div>
+                    
+                    <button id="batchProcessBtn" class="btn btn-primary" disabled>
+                        <i class="fas fa-cogs"></i> 开始批量处理
+                    </button>
+                </div>
+                
+                <div id="batchResults" class="batch-results" style="display: none;">
+                    <h3>批量处理结果</h3>
+                    <div id="batchResultsContent"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 加载提示 -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p id="loadingText">正在处理中...</p>
+            </div>
+        </div>
+
+        <!-- 通知提示 -->
+        <div id="notification" class="notification" style="display: none;">
+            <span id="notificationText"></span>
+            <button class="notification-close">&times;</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
