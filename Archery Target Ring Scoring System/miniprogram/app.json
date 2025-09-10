@@ -1,0 +1,66 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/camera/camera",
+    "pages/result/result",
+    "pages/history/history",
+    "pages/statistics/statistics",
+    "pages/settings/settings",
+    "pages/tutorial/tutorial"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#2c3e50",
+    "navigationBarTitleText": "射箭记分助手",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f8f9fa",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/camera/camera",
+        "iconPath": "images/camera.png",
+        "selectedIconPath": "images/camera-active.png",
+        "text": "拍照"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "iconPath": "images/history.png",
+        "selectedIconPath": "images/history-active.png",
+        "text": "历史"
+      },
+      {
+        "pagePath": "pages/statistics/statistics",
+        "iconPath": "images/chart.png",
+        "selectedIconPath": "images/chart-active.png",
+        "text": "统计"
+      }
+    ]
+  },
+  "permission": {
+    "scope.camera": {
+      "desc": "用于拍摄靶纸照片进行得分识别"
+    },
+    "scope.writePhotosAlbum": {
+      "desc": "用于保存识别结果图片"
+    }
+  },
+  "requiredBackgroundModes": ["audio"],
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
+}

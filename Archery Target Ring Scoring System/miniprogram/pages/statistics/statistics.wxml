@@ -1,0 +1,241 @@
+<!--统计分析页面-->
+<view class="container">
+  <!-- 概览统计 -->
+  <view class="overview-section">
+    <view class="section-header">
+      <text class="section-title">📊 总体统计</text>
+      <text class="section-subtitle">基于{{totalRecords}}条记录</text>
+    </view>
+    
+    <view class="stats-grid">
+      <view class="stat-card primary">
+        <text class="stat-value">{{totalShots}}</text>
+        <text class="stat-label">总箭数</text>
+        <text class="stat-trend" wx:if="{{trends.totalShots}}">
+          {{trends.totalShots > 0 ? '↗' : '↘'}} {{Math.abs(trends.totalShots)}}
+        </text>
+      </view>
+      
+      <view class="stat-card success">
+        <text class="stat-value">{{averageScore}}</text>
+        <text class="stat-label">平均分</text>
+        <text class="stat-trend" wx:if="{{trends.averageScore}}">
+          {{trends.averageScore > 0 ? '↗' : '↘'}} {{Math.abs(trends.averageScore)}}
+        </text>
+      </view>
+      
+      <view class="stat-card warning">
+        <text class="stat-value">{{bestScore}}</text>
+        <text class="stat-label">最高分</text>
+        <text class="stat-trend" wx:if="{{trends.bestScore}}">
+          {{trends.bestScore > 0 ? '↗' : '↘'}} {{Math.abs(trends.bestScore)}}
+        </text>
+      </view>
+      
+      <view class="stat-card info">
+        <text class="stat-value">{{consistency}}</text>
+        <text class="stat-label">一致性</text>
+        <text class="stat-trend" wx:if="{{trends.consistency}}">
+          {{trends.consistency > 0 ? '↗' : '↘'}} {{Math.abs(trends.consistency)}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 时间趋势 -->
+  <view class="trend-section">
+    <view class="section-header">
+      <text class="section-title">📈 时间趋势</text>
+      <picker 
+        class="period-picker" 
+        range="{{periodOptions}}" 
+        range-key="name"
+        value="{{periodIndex}}"
+        bindchange="onPeriodChange"
+      >
+        <view class="picker-display">
+          {{periodOptions[periodIndex].name}}
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    
+    <view class="trend-chart">
+      <canvas 
+        class="chart-canvas" 
+        canvas-id="trendChart"
+        disable-scroll="true"
+      ></canvas>
+    </view>
+  </view>
+
+  <!-- 得分分布 -->
+  <view class="distribution-section">
+    <view class="section-header">
+      <text class="section-title">🎯 得分分布</text>
+    </view>
+    
+    <view class="distribution-chart">
+      <canvas 
+        class="chart-canvas" 
+        canvas-id="distributionChart"
+        disable-scroll="true"
+      ></canvas>
+    </view>
+    
+    <view class="distribution-stats">
+      <view class="dist-stat-item">
+        <text class="dist-stat-value">{{distributionStats.highCount}}</text>
+        <text class="dist-stat-label">高分(8-10环)</text>
+        <text class="dist-stat-percent">{{distributionStats.highPercent}}%</text>
+      </view>
+      <view class="dist-stat-item">
+        <text class="dist-stat-value">{{distributionStats.mediumCount}}</text>
+        <text class="dist-stat-label">中分(6-7环)</text>
+        <text class="dist-stat-percent">{{distributionStats.mediumPercent}}%</text>
+      </view>
+      <view class="dist-stat-item">
+        <text class="dist-stat-value">{{distributionStats.lowCount}}</text>
+        <text class="dist-stat-label">低分(1-5环)</text>
+        <text class="dist-stat-percent">{{distributionStats.lowPercent}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 靶纸类型分析 -->
+  <view class="target-analysis">
+    <view class="section-header">
+      <text class="section-title">🎯 靶纸类型分析</text>
+    </view>
+    
+    <view class="target-stats">
+      <view 
+        class="target-stat-item"
+        wx:for="{{targetStats}}" 
+        wx:key="type"
+      >
+        <view class="target-info">
+          <text class="target-name">{{item.name}}</text>
+          <text class="target-count">{{item.count}}次</text>
+        </view>
+        <view class="target-score">
+          <text class="score-value">{{item.averageScore}}</text>
+          <text class="score-label">平均分</text>
+        </view>
+        <view class="target-progress">
+          <view class="progress-bar">
+            <view 
+              class="progress-fill" 
+              style="width: {{item.progress}}%"
+            ></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 进步分析 -->
+  <view class="progress-section">
+    <view class="section-header">
+      <text class="section-title">📊 进步分析</text>
+    </view>
+    
+    <view class="progress-cards">
+      <view class="progress-card">
+        <view class="card-header">
+          <text class="card-title">最近表现</text>
+          <text class="card-subtitle">最近10次</text>
+        </view>
+        <view class="card-content">
+          <text class="progress-value">{{recentPerformance.averageScore}}</text>
+          <text class="progress-label">平均分</text>
+          <text class="progress-trend {{recentPerformance.trend}}">
+            {{recentPerformance.trendText}}
+          </text>
+        </view>
+      </view>
+      
+      <view class="progress-card">
+        <view class="card-header">
+          <text class="card-title">最佳表现</text>
+          <text class="card-subtitle">历史最高</text>
+        </view>
+        <view class="card-content">
+          <text class="progress-value">{{bestPerformance.totalScore}}</text>
+          <text class="progress-label">单次最高</text>
+          <text class="progress-date">{{bestPerformance.date}}</text>
+        </view>
+      </view>
+      
+      <view class="progress-card">
+        <view class="card-header">
+          <text class="card-title">训练频率</text>
+          <text class="card-subtitle">活跃度</text>
+        </view>
+        <view class="card-content">
+          <text class="progress-value">{{trainingFrequency.weekly}}</text>
+          <text class="progress-label">本周次数</text>
+          <text class="progress-trend {{trainingFrequency.trend}}">
+            {{trainingFrequency.trendText}}
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 建议和洞察 -->
+  <view class="insights-section">
+    <view class="section-header">
+      <text class="section-title">💡 智能洞察</text>
+    </view>
+    
+    <view class="insights-list">
+      <view 
+        class="insight-item"
+        wx:for="{{insights}}" 
+        wx:key="index"
+      >
+        <view class="insight-icon">{{item.icon}}</view>
+        <view class="insight-content">
+          <text class="insight-title">{{item.title}}</text>
+          <text class="insight-desc">{{item.description}}</text>
+        </view>
+        <view class="insight-priority {{item.priority}}">
+          {{item.priorityText}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 导出功能 -->
+  <view class="export-section">
+    <view class="section-header">
+      <text class="section-title">📤 数据导出</text>
+    </view>
+    
+    <view class="export-options">
+      <button class="export-btn" bindtap="exportData" data-type="summary">
+        <text class="export-icon">📊</text>
+        <text class="export-text">导出统计报告</text>
+      </button>
+      
+      <button class="export-btn" bindtap="exportData" data-type="records">
+        <text class="export-icon">📋</text>
+        <text class="export-text">导出详细记录</text>
+      </button>
+      
+      <button class="export-btn" bindtap="exportData" data-type="chart">
+        <text class="export-icon">📈</text>
+        <text class="export-text">导出图表</text>
+      </button>
+    </view>
+  </view>
+</view>
+
+<!-- 图表加载提示 -->
+<view class="chart-loading" wx:if="{{chartLoading}}">
+  <view class="loading-content">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">生成图表中...</text>
+  </view>
+</view>

@@ -1,0 +1,552 @@
+/* 历史记录页面样式 */
+
+.container {
+  padding: 0;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* 顶部统计 */
+.stats-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40rpx 30rpx;
+  color: #fff;
+}
+
+.stats-overview {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  display: block;
+  font-size: 22rpx;
+  opacity: 0.9;
+}
+
+/* 筛选和排序 */
+.filter-section {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-item {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.filter-item:last-child {
+  margin-right: 0;
+}
+
+.filter-label {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.filter-picker {
+  width: 100%;
+}
+
+.picker-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 25rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #333;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.picker-display:active {
+  background: #e9ecef;
+  border-color: #667eea;
+}
+
+.picker-arrow {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 15rpx;
+  margin-left: 20rpx;
+}
+
+.filter-btn {
+  padding: 15rpx 25rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.filter-btn::after {
+  border: none;
+}
+
+.filter-btn {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.filter-btn.primary {
+  background: #667eea;
+  color: #fff;
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+}
+
+/* 记录列表 */
+.records-section {
+  margin: 20rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.section-count {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.record-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.record-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25rpx;
+}
+
+.record-info {
+  flex: 1;
+}
+
+.record-date {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8rpx;
+}
+
+.record-target {
+  display: block;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.record-actions {
+  display: flex;
+  gap: 10rpx;
+}
+
+.action-btn {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.action-btn:active {
+  transform: scale(0.9);
+  background: #e0e0e0;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.btn-icon {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.record-content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25rpx;
+}
+
+.score-display {
+  text-align: center;
+  margin-right: 40rpx;
+}
+
+.total-score {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5rpx;
+}
+
+.score-label {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.score-details {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.detail-item {
+  text-align: center;
+}
+
+.detail-value {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5rpx;
+}
+
+.detail-label {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.record-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.scores-preview {
+  display: flex;
+  gap: 8rpx;
+  flex-wrap: wrap;
+}
+
+.score-dot {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.score-dot.high {
+  background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+}
+
+.score-dot.medium {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.score-dot.low {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.record-time {
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 40rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 15rpx;
+  color: #666;
+}
+
+.empty-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 40rpx;
+  line-height: 1.5;
+}
+
+/* 加载更多 */
+.load-more {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.load-more-btn {
+  padding: 20rpx 40rpx;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 25rpx;
+  font-size: 26rpx;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:active {
+  transform: scale(0.95);
+  background: #e0e0e0;
+}
+
+.load-more-btn::after {
+  border: none;
+}
+
+.loading-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20rpx;
+}
+
+.loading-spinner {
+  width: 30rpx;
+  height: 30rpx;
+  border: 3rpx solid #f3f3f3;
+  border-top: 3rpx solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 删除确认弹窗 */
+.delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40rpx;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 20rpx;
+  max-width: 500rpx;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.modal-body {
+  padding: 30rpx;
+  text-align: center;
+}
+
+.modal-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  display: flex;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 30rpx;
+  border: none;
+  font-size: 28rpx;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.modal-btn::after {
+  border: none;
+}
+
+.modal-btn.cancel {
+  background: #f8f9fa;
+  color: #666;
+  border-right: 1rpx solid #f0f0f0;
+}
+
+.modal-btn.confirm {
+  background: #dc3545;
+  color: #fff;
+}
+
+.modal-btn:active {
+  opacity: 0.8;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .stats-header {
+    padding: 30rpx 20rpx;
+  }
+  
+  .stat-value {
+    font-size: 32rpx;
+  }
+  
+  .stat-label {
+    font-size: 20rpx;
+  }
+  
+  .filter-section {
+    margin: 15rpx;
+    padding: 20rpx;
+  }
+  
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20rpx;
+  }
+  
+  .filter-item {
+    margin-right: 0;
+  }
+  
+  .filter-actions {
+    margin-left: 0;
+    justify-content: center;
+  }
+  
+  .records-section {
+    margin: 15rpx;
+  }
+  
+  .record-card {
+    padding: 20rpx;
+  }
+  
+  .record-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20rpx;
+  }
+  
+  .score-display {
+    margin-right: 0;
+  }
+  
+  .score-details {
+    justify-content: space-around;
+  }
+  
+  .total-score {
+    font-size: 40rpx;
+  }
+  
+  .detail-value {
+    font-size: 24rpx;
+  }
+  
+  .score-dot {
+    width: 35rpx;
+    height: 35rpx;
+    font-size: 18rpx;
+  }
+}

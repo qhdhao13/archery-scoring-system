@@ -1,0 +1,168 @@
+<!--射箭记分助手 - 首页-->
+<view class="container">
+  <!-- 欢迎区域 -->
+  <view class="welcome-section">
+    <view class="welcome-header">
+      <text class="welcome-title">🎯 射箭记分助手</text>
+      <text class="welcome-subtitle">智能识别，精准记分</text>
+    </view>
+    
+    <!-- 快速操作按钮 -->
+    <view class="quick-actions">
+      <button class="btn btn-primary btn-large quick-action-btn" bindtap="goToCamera">
+        <text class="btn-icon">📷</text>
+        <text class="btn-text">拍照识别</text>
+      </button>
+      
+      <button class="btn btn-outline btn-large quick-action-btn" bindtap="goToManual">
+        <text class="btn-icon">✏️</text>
+        <text class="btn-text">手动输入</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 靶纸类型选择 -->
+  <view class="card">
+    <view class="card-header">
+      <text>🎯 选择靶纸类型</text>
+    </view>
+    <view class="card-body">
+      <view class="target-types">
+        <view 
+          class="target-type-item {{currentTargetType === item.key ? 'active' : ''}}"
+          wx:for="{{targetTypes}}" 
+          wx:key="key"
+          bindtap="selectTargetType"
+          data-type="{{item.key}}"
+        >
+          <view class="target-type-icon">{{item.distance}}m</view>
+          <view class="target-type-info">
+            <text class="target-type-name">{{item.name}}</text>
+            <text class="target-type-desc">{{item.diameter}}cm直径</text>
+          </view>
+          <view class="target-type-check" wx:if="{{currentTargetType === item.key}}">✓</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近记录 -->
+  <view class="card" wx:if="{{recentRecords.length > 0}}">
+    <view class="card-header">
+      <text>📊 最近记录</text>
+      <text class="header-action" bindtap="goToHistory">查看全部</text>
+    </view>
+    <view class="card-body">
+      <view class="recent-records">
+        <view 
+          class="record-item"
+          wx:for="{{recentRecords}}" 
+          wx:key="id"
+          bindtap="viewRecord"
+          data-record="{{item}}"
+        >
+          <view class="record-info">
+            <text class="record-date">{{item.date}}</text>
+            <text class="record-target">{{item.targetType}}</text>
+          </view>
+          <view class="record-score">
+            <text class="score-value">{{item.totalScore}}</text>
+            <text class="score-label">总分</text>
+          </view>
+          <view class="record-arrow">
+            <text class="arrow-count">{{item.arrowCount}}箭</text>
+            <text class="arrow-avg">均分{{item.averageScore}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计概览 -->
+  <view class="card" wx:if="{{statistics}}">
+    <view class="card-header">
+      <text>📈 统计概览</text>
+    </view>
+    <view class="card-body">
+      <view class="grid grid-2">
+        <view class="grid-item">
+          <view class="stat-card">
+            <text class="stat-value">{{statistics.totalShots}}</text>
+            <text class="stat-label">总箭数</text>
+          </view>
+        </view>
+        <view class="grid-item">
+          <view class="stat-card">
+            <text class="stat-value">{{statistics.averageScore}}</text>
+            <text class="stat-label">平均分</text>
+          </view>
+        </view>
+        <view class="grid-item">
+          <view class="stat-card">
+            <text class="stat-value">{{statistics.bestScore}}</text>
+            <text class="stat-label">最高分</text>
+          </view>
+        </view>
+        <view class="grid-item">
+          <view class="stat-card">
+            <text class="stat-value">{{statistics.consistency}}</text>
+            <text class="stat-label">一致性</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="card">
+    <view class="card-header">
+      <text>⚙️ 功能菜单</text>
+    </view>
+    <view class="card-body">
+      <view class="menu-list">
+        <view class="menu-item" bindtap="goToTutorial">
+          <view class="menu-icon">📚</view>
+          <view class="menu-content">
+            <text class="menu-title">使用教程</text>
+            <text class="menu-desc">学习如何使用射箭记分助手</text>
+          </view>
+          <view class="menu-arrow">></view>
+        </view>
+        
+        <view class="menu-item" bindtap="goToSettings">
+          <view class="menu-icon">⚙️</view>
+          <view class="menu-content">
+            <text class="menu-title">设置</text>
+            <text class="menu-desc">个性化设置和偏好</text>
+          </view>
+          <view class="menu-arrow">></view>
+        </view>
+        
+        <view class="menu-item" bindtap="shareApp">
+          <view class="menu-icon">📤</view>
+          <view class="menu-content">
+            <text class="menu-title">分享应用</text>
+            <text class="menu-desc">推荐给朋友使用</text>
+          </view>
+          <view class="menu-arrow">></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{recentRecords.length === 0 && !statistics}}">
+    <view class="empty-icon">🎯</view>
+    <text class="empty-text">还没有记录</text>
+    <text class="empty-desc">开始你的第一次射箭记分吧！</text>
+    <button class="btn btn-primary" bindtap="goToCamera">开始记分</button>
+  </view>
+</view>
+
+<!-- 加载提示 -->
+<view class="loading-overlay" wx:if="{{loading}}">
+  <view class="loading-content">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+  </view>
+</view>

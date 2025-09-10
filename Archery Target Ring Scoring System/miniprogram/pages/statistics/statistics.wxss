@@ -1,0 +1,557 @@
+/* 统计分析页面样式 */
+
+.container {
+  padding: 0;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* 概览统计 */
+.overview-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40rpx 30rpx;
+  color: #fff;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.section-subtitle {
+  font-size: 22rpx;
+  opacity: 0.8;
+}
+
+.stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.stat-card {
+  flex: 0 0 calc(50% - 10rpx);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16rpx;
+  padding: 30rpx 20rpx;
+  text-align: center;
+  backdrop-filter: blur(10rpx);
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-value {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  display: block;
+  font-size: 22rpx;
+  opacity: 0.9;
+  margin-bottom: 5rpx;
+}
+
+.stat-trend {
+  display: block;
+  font-size: 18rpx;
+  opacity: 0.8;
+}
+
+/* 时间趋势 */
+.trend-section {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.period-picker {
+  flex-shrink: 0;
+}
+
+.picker-display {
+  display: flex;
+  align-items: center;
+  padding: 15rpx 20rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #333;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.picker-display:active {
+  background: #e9ecef;
+  border-color: #667eea;
+}
+
+.picker-arrow {
+  font-size: 18rpx;
+  color: #999;
+  margin-left: 10rpx;
+}
+
+.trend-chart {
+  margin-top: 30rpx;
+  height: 300rpx;
+  position: relative;
+}
+
+.chart-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* 得分分布 */
+.distribution-section {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.distribution-chart {
+  margin: 30rpx 0;
+  height: 250rpx;
+  position: relative;
+}
+
+.distribution-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30rpx;
+}
+
+.dist-stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.dist-stat-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5rpx;
+}
+
+.dist-stat-label {
+  display: block;
+  font-size: 22rpx;
+  color: #666;
+  margin-bottom: 5rpx;
+}
+
+.dist-stat-percent {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 靶纸类型分析 */
+.target-analysis {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.target-stats {
+  margin-top: 20rpx;
+}
+
+.target-stat-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.target-stat-item:last-child {
+  border-bottom: none;
+}
+
+.target-info {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.target-name {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5rpx;
+}
+
+.target-count {
+  display: block;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.target-score {
+  text-align: center;
+  margin-right: 20rpx;
+}
+
+.score-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5rpx;
+}
+
+.score-label {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.target-progress {
+  width: 100rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4rpx;
+  transition: width 0.3s ease;
+}
+
+/* 进步分析 */
+.progress-section {
+  margin: 20rpx;
+}
+
+.progress-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.progress-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.card-subtitle {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.card-content {
+  text-align: center;
+}
+
+.progress-value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 10rpx;
+}
+
+.progress-label {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.progress-trend {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.progress-trend.improving {
+  color: #28a745;
+}
+
+.progress-trend.declining {
+  color: #dc3545;
+}
+
+.progress-trend.stable {
+  color: #6c757d;
+}
+
+.progress-date {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 智能洞察 */
+.insights-section {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.insights-list {
+  margin-top: 20rpx;
+}
+
+.insight-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.insight-item:last-child {
+  border-bottom: none;
+}
+
+.insight-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+  margin-top: 5rpx;
+}
+
+.insight-content {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.insight-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8rpx;
+}
+
+.insight-desc {
+  display: block;
+  font-size: 22rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.insight-priority {
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.insight-priority.high {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.insight-priority.medium {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.insight-priority.low {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+/* 导出功能 */
+.export-section {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.export-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  padding: 25rpx 30rpx;
+  background: #f8f9fa;
+  border: none;
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+}
+
+.export-btn:active {
+  background: #e9ecef;
+  transform: scale(0.98);
+}
+
+.export-btn::after {
+  border: none;
+}
+
+.export-icon {
+  font-size: 32rpx;
+  margin-right: 20rpx;
+}
+
+.export-text {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 图表加载提示 */
+.chart-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.3);
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 30rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .overview-section {
+    padding: 30rpx 20rpx;
+  }
+  
+  .section-title {
+    font-size: 28rpx;
+  }
+  
+  .section-subtitle {
+    font-size: 20rpx;
+  }
+  
+  .stat-card {
+    flex: 0 0 100%;
+  }
+  
+  .stat-value {
+    font-size: 36rpx;
+  }
+  
+  .trend-section,
+  .distribution-section,
+  .target-analysis,
+  .insights-section,
+  .export-section {
+    margin: 15rpx;
+    padding: 20rpx;
+  }
+  
+  .trend-chart,
+  .distribution-chart {
+    height: 250rpx;
+  }
+  
+  .distribution-stats {
+    flex-direction: column;
+    gap: 20rpx;
+  }
+  
+  .target-stat-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15rpx;
+  }
+  
+  .target-info,
+  .target-score {
+    margin-right: 0;
+  }
+  
+  .target-progress {
+    width: 100%;
+  }
+  
+  .progress-value {
+    font-size: 40rpx;
+  }
+  
+  .insight-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15rpx;
+  }
+  
+  .insight-content {
+    margin-right: 0;
+  }
+  
+  .insight-priority {
+    align-self: flex-start;
+  }
+}

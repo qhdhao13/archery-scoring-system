@@ -1,0 +1,185 @@
+<!--历史记录页面-->
+<view class="container">
+  <!-- 顶部统计 -->
+  <view class="stats-header">
+    <view class="stats-overview">
+      <view class="stat-item">
+        <text class="stat-value">{{totalRecords}}</text>
+        <text class="stat-label">总记录</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{totalShots}}</text>
+        <text class="stat-label">总箭数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{averageScore}}</text>
+        <text class="stat-label">平均分</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{bestScore}}</text>
+        <text class="stat-label">最高分</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 筛选和排序 -->
+  <view class="filter-section">
+    <view class="filter-row">
+      <view class="filter-item">
+        <text class="filter-label">靶纸类型</text>
+        <picker 
+          class="filter-picker" 
+          range="{{targetTypeOptions}}" 
+          range-key="name"
+          value="{{targetTypeIndex}}"
+          bindchange="onTargetTypeChange"
+        >
+          <view class="picker-display">
+            {{targetTypeOptions[targetTypeIndex].name}}
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+      
+      <view class="filter-item">
+        <text class="filter-label">排序方式</text>
+        <picker 
+          class="filter-picker" 
+          range="{{sortOptions}}" 
+          range-key="name"
+          value="{{sortIndex}}"
+          bindchange="onSortChange"
+        >
+          <view class="picker-display">
+            {{sortOptions[sortIndex].name}}
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+    
+    <view class="filter-row">
+      <view class="filter-item">
+        <text class="filter-label">时间范围</text>
+        <picker 
+          class="filter-picker" 
+          range="{{timeRangeOptions}}" 
+          range-key="name"
+          value="{{timeRangeIndex}}"
+          bindchange="onTimeRangeChange"
+        >
+          <view class="picker-display">
+            {{timeRangeOptions[timeRangeIndex].name}}
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+      
+      <view class="filter-actions">
+        <button class="filter-btn" bindtap="clearFilters">重置</button>
+        <button class="filter-btn primary" bindtap="applyFilters">应用</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="records-section">
+    <view class="section-header">
+      <text class="section-title">记录列表</text>
+      <text class="section-count">{{filteredRecords.length}}条记录</text>
+    </view>
+    
+    <view class="records-list" wx:if="{{filteredRecords.length > 0}}">
+      <view 
+        class="record-card"
+        wx:for="{{filteredRecords}}" 
+        wx:key="id"
+        bindtap="viewRecord"
+        data-record="{{item}}"
+      >
+        <view class="record-header">
+          <view class="record-info">
+            <text class="record-date">{{item.date}}</text>
+            <text class="record-target">{{item.targetType}}</text>
+          </view>
+          <view class="record-actions">
+            <button class="action-btn" bindtap="shareRecord" data-record="{{item}}" catchtap="true">
+              <text class="btn-icon">📤</text>
+            </button>
+            <button class="action-btn" bindtap="deleteRecord" data-record="{{item}}" catchtap="true">
+              <text class="btn-icon">🗑️</text>
+            </button>
+          </view>
+        </view>
+        
+        <view class="record-content">
+          <view class="score-display">
+            <text class="total-score">{{item.totalScore}}</text>
+            <text class="score-label">总分</text>
+          </view>
+          
+          <view class="score-details">
+            <view class="detail-item">
+              <text class="detail-value">{{item.averageScore}}</text>
+              <text class="detail-label">平均分</text>
+            </view>
+            <view class="detail-item">
+              <text class="detail-value">{{item.arrowCount}}</text>
+              <text class="detail-label">箭数</text>
+            </view>
+            <view class="detail-item">
+              <text class="detail-value">{{item.performanceGrade}}</text>
+              <text class="detail-label">评级</text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="record-footer">
+          <view class="scores-preview">
+            <text 
+              class="score-dot {{score >= 8 ? 'high' : (score >= 6 ? 'medium' : 'low')}}"
+              wx:for="{{item.scores}}" 
+              wx:key="index"
+            >{{score}}</text>
+          </view>
+          <text class="record-time">{{item.time}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{filteredRecords.length === 0}}">
+      <view class="empty-icon">📊</view>
+      <text class="empty-text">没有找到记录</text>
+      <text class="empty-desc">尝试调整筛选条件或开始新的记分</text>
+      <button class="btn btn-primary" bindtap="goToCamera">开始记分</button>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore && filteredRecords.length > 0}}">
+    <button class="load-more-btn" bindtap="loadMore" wx:if="{{!loading}}">
+      <text class="btn-text">加载更多</text>
+    </button>
+    <view class="loading-more" wx:if="{{loading}}">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+</view>
+
+<!-- 删除确认弹窗 -->
+<view class="delete-modal" wx:if="{{showDeleteModal}}">
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">确认删除</text>
+    </view>
+    <view class="modal-body">
+      <text class="modal-text">确定要删除这条记录吗？删除后无法恢复。</text>
+    </view>
+    <view class="modal-footer">
+      <button class="modal-btn cancel" bindtap="cancelDelete">取消</button>
+      <button class="modal-btn confirm" bindtap="confirmDelete">删除</button>
+    </view>
+  </view>
+</view>

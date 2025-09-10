@@ -1,0 +1,224 @@
+<!--结果展示页面-->
+<view class="container">
+  <!-- 顶部信息 -->
+  <view class="header-info">
+    <view class="target-info">
+      <text class="target-name">{{record.targetType}}</text>
+      <text class="record-time">{{record.date}}</text>
+    </view>
+    <view class="action-buttons">
+      <button class="action-btn" bindtap="shareResult">
+        <text class="btn-icon">📤</text>
+      </button>
+      <button class="action-btn" bindtap="saveImage">
+        <text class="btn-icon">💾</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 得分概览 -->
+  <view class="score-overview">
+    <view class="main-score">
+      <text class="score-value">{{record.totalScore}}</text>
+      <text class="score-label">总分</text>
+    </view>
+    <view class="score-details">
+      <view class="detail-item">
+        <text class="detail-value">{{record.averageScore}}</text>
+        <text class="detail-label">平均分</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-value">{{record.arrowCount}}</text>
+        <text class="detail-label">箭数</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-value">{{record.performanceGrade}}</text>
+        <text class="detail-label">评级</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 识别结果图像 -->
+  <view class="result-image-section">
+    <view class="section-header">
+      <text class="section-title">识别结果</text>
+      <button class="zoom-btn" bindtap="previewImage">
+        <text class="btn-icon">🔍</text>
+      </button>
+    </view>
+    <view class="image-container">
+      <image 
+        class="result-image" 
+        src="{{record.resultImage}}" 
+        mode="aspectFit"
+        bindtap="previewImage"
+        bindload="onImageLoad"
+        binderror="onImageError"
+      ></image>
+      <view class="image-loading" wx:if="{{imageLoading}}">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">加载中...</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 详细得分 -->
+  <view class="detailed-scores">
+    <view class="section-header">
+      <text class="section-title">详细得分</text>
+      <text class="section-subtitle">{{record.arrowCount}}箭</text>
+    </view>
+    <view class="scores-grid">
+      <view 
+        class="score-item {{item >= 8 ? 'high' : (item >= 6 ? 'medium' : 'low')}}"
+        wx:for="{{record.scores}}" 
+        wx:key="index"
+      >
+        <text class="score-number">{{item}}</text>
+        <text class="score-index">第{{index + 1}}箭</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 性能分析 -->
+  <view class="analysis-section" wx:if="{{record.analysis}}">
+    <view class="section-header">
+      <text class="section-title">性能分析</text>
+    </view>
+    
+    <!-- 基础统计 -->
+    <view class="analysis-card">
+      <view class="card-title">📊 基础统计</view>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-value">{{record.analysis.basic_stats.max_score}}</text>
+          <text class="stat-label">最高分</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{record.analysis.basic_stats.min_score}}</text>
+          <text class="stat-label">最低分</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{record.analysis.basic_stats.std_deviation}}</text>
+          <text class="stat-label">标准差</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{record.analysis.consistency.consistency_score}}</text>
+          <text class="stat-label">一致性</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 一致性分析 -->
+    <view class="analysis-card">
+      <view class="card-title">🎯 一致性分析</view>
+      <view class="consistency-info">
+        <view class="consistency-item">
+          <text class="consistency-label">一致性评分</text>
+          <text class="consistency-value">{{record.analysis.consistency.consistency_score}}</text>
+        </view>
+        <view class="consistency-item">
+          <text class="consistency-label">趋势</text>
+          <text class="consistency-value trend-{{record.analysis.consistency.trend}}">
+            {{getTrendText(record.analysis.consistency.trend)}}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 改进建议 -->
+    <view class="analysis-card" wx:if="{{record.analysis.recommendations && record.analysis.recommendations.length > 0}}">
+      <view class="card-title">💡 改进建议</view>
+      <view class="recommendations">
+        <view 
+          class="recommendation-item"
+          wx:for="{{record.analysis.recommendations}}" 
+          wx:key="index"
+        >
+          <text class="recommendation-icon">•</text>
+          <text class="recommendation-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="btn btn-secondary" bindtap="retakePhoto">
+      <text class="btn-icon">📷</text>
+      <text class="btn-text">重新拍摄</text>
+    </button>
+    <button class="btn btn-primary" bindtap="saveRecord">
+      <text class="btn-icon">💾</text>
+      <text class="btn-text">保存记录</text>
+    </button>
+  </view>
+
+  <!-- 相关记录 -->
+  <view class="related-records" wx:if="{{relatedRecords.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">相关记录</text>
+      <text class="section-action" bindtap="goToHistory">查看全部</text>
+    </view>
+    <view class="records-list">
+      <view 
+        class="record-item"
+        wx:for="{{relatedRecords}}" 
+        wx:key="id"
+        bindtap="viewRecord"
+        data-record="{{item}}"
+      >
+        <view class="record-info">
+          <text class="record-date">{{item.date}}</text>
+          <text class="record-target">{{item.targetType}}</text>
+        </view>
+        <view class="record-score">
+          <text class="score-value">{{item.totalScore}}</text>
+          <text class="score-label">总分</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 图片预览弹窗 -->
+<view class="image-preview-modal" wx:if="{{showImagePreview}}">
+  <view class="preview-content">
+    <image 
+      class="preview-image" 
+      src="{{record.resultImage}}" 
+      mode="aspectFit"
+      bindtap="hideImagePreview"
+    ></image>
+    <button class="preview-close" bindtap="hideImagePreview">×</button>
+  </view>
+</view>
+
+<!-- 分享弹窗 -->
+<view class="share-modal" wx:if="{{showShareModal}}">
+  <view class="share-content">
+    <view class="share-header">
+      <text class="share-title">分享结果</text>
+      <button class="share-close" bindtap="hideShareModal">×</button>
+    </view>
+    <view class="share-body">
+      <view class="share-preview">
+        <image class="share-image" src="{{record.resultImage}}" mode="aspectFit"></image>
+        <view class="share-info">
+          <text class="share-score">总分: {{record.totalScore}}</text>
+          <text class="share-detail">{{record.arrowCount}}箭 平均{{record.averageScore}}分</text>
+        </view>
+      </view>
+      <view class="share-actions">
+        <button class="share-btn" open-type="share">
+          <text class="share-icon">💬</text>
+          <text class="share-text">分享给朋友</text>
+        </button>
+        <button class="share-btn" bindtap="saveToAlbum">
+          <text class="share-icon">📱</text>
+          <text class="share-text">保存到相册</text>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

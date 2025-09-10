@@ -1,0 +1,186 @@
+<!--拍照识别页面-->
+<view class="container">
+  <!-- 顶部信息栏 -->
+  <view class="header-info">
+    <view class="target-info">
+      <text class="target-name">{{currentTargetName}}</text>
+      <text class="target-spec">{{currentTargetSpec}}</text>
+    </view>
+    <view class="camera-tips">
+      <text class="tip-text">📸 拍摄技巧：保持靶纸完整，光线充足</text>
+    </view>
+  </view>
+
+  <!-- 相机预览区域 -->
+  <view class="camera-container">
+    <camera 
+      class="camera-preview"
+      device-position="back"
+      flash="off"
+      bindstop="onCameraStop"
+      binderror="onCameraError"
+      bindscancode="onScanCode"
+    >
+      <!-- 相机控制按钮 -->
+      <view class="camera-controls">
+        <view class="control-row">
+          <button class="control-btn" bindtap="switchCamera">
+            <text class="btn-icon">🔄</text>
+          </button>
+          <button class="control-btn" bindtap="toggleFlash">
+            <text class="btn-icon">{{flashMode === 'on' ? '💡' : '🔦'}}</text>
+          </button>
+        </view>
+        
+        <view class="control-row">
+          <button class="control-btn" bindtap="selectFromAlbum">
+            <text class="btn-icon">📷</text>
+          </button>
+          <button class="control-btn" bindtap="showTargetGuide">
+            <text class="btn-icon">❓</text>
+          </button>
+        </view>
+      </view>
+
+      <!-- 拍摄按钮 -->
+      <view class="capture-area">
+        <button class="capture-btn" bindtap="takePhoto">
+          <view class="capture-inner"></view>
+        </button>
+        <text class="capture-hint">点击拍摄</text>
+      </view>
+    </camera>
+  </view>
+
+  <!-- 靶纸类型选择 -->
+  <view class="target-selector">
+    <scroll-view class="target-scroll" scroll-x="true">
+      <view class="target-options">
+        <view 
+          class="target-option {{currentTargetType === item.key ? 'active' : ''}}"
+          wx:for="{{targetTypes}}" 
+          wx:key="key"
+          bindtap="selectTargetType"
+          data-type="{{item.key}}"
+        >
+          <text class="option-distance">{{item.distance}}m</text>
+          <text class="option-diameter">{{item.diameter}}cm</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 拍摄历史 -->
+  <view class="recent-photos" wx:if="{{recentPhotos.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">最近拍摄</text>
+      <text class="section-action" bindtap="clearRecentPhotos">清空</text>
+    </view>
+    <scroll-view class="photos-scroll" scroll-x="true">
+      <view class="photos-list">
+        <view 
+          class="photo-item"
+          wx:for="{{recentPhotos}}" 
+          wx:key="id"
+          bindtap="selectRecentPhoto"
+          data-photo="{{item}}"
+        >
+          <image class="photo-thumb" src="{{item.thumbPath}}" mode="aspectFill"></image>
+          <view class="photo-info">
+            <text class="photo-score">{{item.totalScore}}分</text>
+            <text class="photo-time">{{item.time}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 快速操作 -->
+  <view class="quick-actions">
+    <button class="action-btn" bindtap="goToManual">
+      <text class="action-icon">✏️</text>
+      <text class="action-text">手动输入</text>
+    </button>
+    <button class="action-btn" bindtap="goToHistory">
+      <text class="action-icon">📊</text>
+      <text class="action-text">历史记录</text>
+    </button>
+    <button class="action-btn" bindtap="goToSettings">
+      <text class="action-icon">⚙️</text>
+      <text class="action-text">设置</text>
+    </button>
+  </view>
+</view>
+
+<!-- 拍摄引导弹窗 -->
+<view class="guide-modal" wx:if="{{showGuide}}">
+  <view class="guide-content">
+    <view class="guide-header">
+      <text class="guide-title">📸 拍摄指南</text>
+      <button class="guide-close" bindtap="hideGuide">×</button>
+    </view>
+    <view class="guide-body">
+      <view class="guide-item">
+        <text class="guide-icon">🎯</text>
+        <view class="guide-text">
+          <text class="guide-step">1. 确保靶纸完整</text>
+          <text class="guide-desc">靶纸边缘清晰可见，无遮挡</text>
+        </view>
+      </view>
+      <view class="guide-item">
+        <text class="guide-icon">💡</text>
+        <view class="guide-text">
+          <text class="guide-step">2. 光线充足</text>
+          <text class="guide-desc">避免逆光，确保箭矢清晰可见</text>
+        </view>
+      </view>
+      <view class="guide-item">
+        <text class="guide-icon">📐</text>
+        <view class="guide-text">
+          <text class="guide-step">3. 角度合适</text>
+          <text class="guide-desc">正面拍摄，避免倾斜角度</text>
+        </view>
+      </view>
+      <view class="guide-item">
+        <text class="guide-icon">🔍</text>
+        <view class="guide-text">
+          <text class="guide-step">4. 距离适中</text>
+          <text class="guide-desc">靶纸占画面70%以上</text>
+        </view>
+      </view>
+    </view>
+    <view class="guide-footer">
+      <button class="btn btn-primary" bindtap="hideGuide">知道了</button>
+    </view>
+  </view>
+</view>
+
+<!-- 加载提示 -->
+<view class="loading-overlay" wx:if="{{loading}}">
+  <view class="loading-content">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">{{loadingText}}</text>
+    <text class="loading-progress" wx:if="{{loadingProgress}}">{{loadingProgress}}</text>
+  </view>
+</view>
+
+<!-- 处理结果预览 -->
+<view class="result-preview" wx:if="{{previewResult}}">
+  <view class="preview-header">
+    <text class="preview-title">识别结果</text>
+    <button class="preview-close" bindtap="closePreview">×</button>
+  </view>
+  <view class="preview-body">
+    <image class="preview-image" src="{{previewResult.resultImage}}" mode="aspectFit"></image>
+    <view class="preview-scores">
+      <view class="score-item" wx:for="{{previewResult.scores}}" wx:key="index">
+        <text class="score-value">{{item}}</text>
+        <text class="score-label">第{{index + 1}}箭</text>
+      </view>
+    </view>
+  </view>
+  <view class="preview-footer">
+    <button class="btn btn-secondary" bindtap="retakePhoto">重新拍摄</button>
+    <button class="btn btn-primary" bindtap="confirmResult">确认结果</button>
+  </view>
+</view>
